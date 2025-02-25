@@ -1,6 +1,6 @@
-#import <React/RCTBridgeModule.h>
-#import <React/RCTTurboModule.h>
 
-@interface PdfForm : NSObject <RCTTurboModule>
+#import "generated/RNPdfFormSpec/RNPdfFormSpec.h"
+
+@interface PdfForm : NSObject <NativePdfFormSpec>
 
 @end

@@ -1,6 +1,6 @@
 {
   "name": "react-native-pdf-form",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A React Native library to detect and fill PDF forms using Turbo Modules",
   "main": "src/index.js",
   "types": "PdfFormSpec.ts",

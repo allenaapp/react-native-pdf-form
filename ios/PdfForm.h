@@ -1,5 +1,5 @@
 
-#import "generated/RNPdfFormSpec/RNPdfFormSpec.h"
+#import "RNPdfFormSpec/RNPdfFormSpec.h"
 
 @interface PdfForm : NSObject <NativePdfFormSpec>
 

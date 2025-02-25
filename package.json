@@ -1,0 +1,16 @@
+{
+  "name": "react-native-pdf-form",
+  "version": "1.0.0",
+  "description": "A React Native library to detect and fill PDF forms using Turbo Modules",
+  "main": "src/index.js",
+  "types": "PdfFormSpec.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["react-native", "pdf", "forms", "turbo-modules", "pdfkit", "pdfbox"],
+  "author": "Samin Shams",
+  "license": "MIT",
+  "peerDependencies": {
+    "react-native": ">=0.60"
+  }
+}

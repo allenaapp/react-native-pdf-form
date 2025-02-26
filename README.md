@@ -12,11 +12,28 @@ npm install react-native-pdf-form
 
 
 ```js
-import { multiply } from 'react-native-pdf-form';
+import PdfForm from 'react-native-pdf-form';
 
 // ...
 
-const result = multiply(3, 7);
+  PdfForm.detectFormFields('file:///path/to/form.pdf')
+    .then((fields) => {
+      console.log('Form Fields:', fields);
+    })
+    .catch((error) => console.error(error));
+
+  // Fill form fields
+  const fieldData = {
+    firstName: 'John',
+    agree: 'true',
+  };
+
+  PdfForm.fillFormFields('file:///path/to/form.pdf', fieldData)
+    .then((filledPdfPath) => {
+      console.log('Filled PDF saved at:', filledPdfPath);
+    })
+    .catch((error) => console.error(error));
+
 ```
 
 

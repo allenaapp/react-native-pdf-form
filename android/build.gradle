@@ -1,5 +1,5 @@
 buildscript {
-  ext.getExtOrDefault = { name ->
+  ext.getExtOrDefault = {name ->
     return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['PdfForm_' + name]
   }
 
@@ -10,9 +10,11 @@ buildscript {
 
   dependencies {
     classpath "com.android.tools.build:gradle:8.7.2"
+    // noinspection DifferentKotlinGradleVersion
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${getExtOrDefault('kotlinVersion')}"
   }
 }
+
 
 def isNewArchitectureEnabled() {
   return rootProject.hasProperty("newArchEnabled") && rootProject.getProperty("newArchEnabled") == "true"
@@ -33,15 +35,18 @@ def supportsNamespace() {
   def parsed = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')
   def major = parsed[0].toInteger()
   def minor = parsed[1].toInteger()
+
+  // Namespace support was added in 7.3.0
   return (major == 7 && minor >= 3) || major >= 8
 }
 
 android {
   if (supportsNamespace()) {
     namespace "com.pdfform"
+
     sourceSets {
       main {
-        manifest.srcFile "src/main/AndroidManifest.xml"  // Adjust if you need a specific manifest
+        manifest.srcFile "src/main/AndroidManifestNew.xml"
       }
     }
   }
@@ -51,11 +56,6 @@ android {
   defaultConfig {
     minSdkVersion getExtOrIntegerDefault("minSdkVersion")
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
-    buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
-  }
-
-  buildFeatures {
-    buildConfig true
   }
 
   buildTypes {
@@ -72,24 +72,6 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
-
-  kotlinOptions {
-    jvmTarget = "1.8"
-  }
-
-  sourceSets {
-    main {
-      if (isNewArchitectureEnabled()) {
-        java.srcDirs += [
-          "src/main/kotlin",  // Point to Kotlin sources
-          "generated/java",
-          "generated/jni"
-        ]
-      } else {
-        java.srcDirs += "src/main/kotlin"
-      }
-    }
-  }
 }
 
 repositories {
@@ -105,10 +87,3 @@ dependencies {
   implementation "com.tom_roush:pdfbox-android:2.0.27.0"  // PDFBox for Android
 }
 
-if (isNewArchitectureEnabled()) {
-  react {
-    jsRootDir = file("../src/")
-    libraryName = "PdfForm"
-    codegenJavaPackageName = "com.pdfform"
-  }
-}

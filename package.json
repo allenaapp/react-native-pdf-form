@@ -1,6 +1,6 @@
 {
   "name": "react-native-pdf-form",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "A React Native library to detect and fill PDF forms",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
@@ -37,6 +37,7 @@
     "!**/.*"
   ],
   "scripts": {
+    "example": "yarn workspace react-native-pdf-form-example",
     "test": "jest",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
@@ -51,21 +52,20 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/allenaapp/react-native-pdf-form.git.git"
+    "url": "git+https://github.com/allenaapp/react-native-pdf-form.git"
   },
-  "author": "Samin Shams <allenahq@gmail.com> (https://formsign.app)",
+  "author": "Samin Shams <support@formsign.app> (https://github.com/allenaapp)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/allenaapp/react-native-pdf-form.git/issues"
+    "url": "https://github.com/allenaapp/react-native-pdf-form/issues"
   },
-  "homepage": "https://github.com/allenaapp/react-native-pdf-form.git#readme",
+  "homepage": "https://github.com/allenaapp/react-native-pdf-form#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",
     "@evilmartians/lefthook": "^1.5.0",
-    "@react-native-community/cli": "15.0.1",
     "@react-native/eslint-config": "^0.73.1",
     "@release-it/conventional-changelog": "^9.0.2",
     "@types/jest": "^29.5.5",
@@ -159,7 +159,6 @@
     "source": "src",
     "output": "lib",
     "targets": [
-      "codegen",
       [
         "commonjs",
         {
@@ -181,21 +180,8 @@
       ]
     ]
   },
-  "codegenConfig": {
-    "name": "RNPdfFormSpec",
-    "type": "modules",
-    "jsSrcsDir": "src",
-    "outputDir": {
-      "ios": "ios/generated",
-      "android": "android/generated"
-    },
-    "android": {
-      "javaPackageName": "com.pdfform"
-    },
-    "includesGeneratedCode": true
-  },
   "create-react-native-library": {
-    "type": "turbo-module",
+    "type": "legacy-module",
     "languages": "kotlin-objc",
     "version": "0.48.3"
   }

@@ -1,16 +1,19 @@
 #import "PdfForm.h"
 #import <PDFKit/PDFKit.h>
 #import <React/RCTPromise.h>
-#import <memory>
 
 @implementation PdfForm
 
-RCT_EXPORT_MODULE()
+RCT_EXPORT_MODULE(PdfForm)
+
++ (NSString *)moduleName {
+  return @"PdfForm";
+}
 
 // Detect form fields in the PDF
-- (void)detectFormFields:(NSString *)pdfPath
-                resolver:(RCTPromiseResolveBlock)resolve
-                rejecter:(RCTPromiseRejectBlock)reject {
+RCT_EXPORT_METHOD(detectFormFields:(NSString *)pdfPath
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
   NSURL *url = [NSURL URLWithString:pdfPath];
   if (!url) {
     reject(@"ERROR", @"Invalid PDF path", nil);
@@ -36,7 +39,11 @@ RCT_EXPORT_MODULE()
             type = @"text";
             break;
           case PDFAnnotationWidgetSubtypeButton:
-            type = annotation.isToggleable ? @"checkbox" : @"radio";
+            if (annotation.isToggleable) {
+              type = @"checkbox";
+            } else {
+              type = @"radio";
+            }
             break;
           case PDFAnnotationWidgetSubtypeChoice:
             type = @"choice";
@@ -59,10 +66,10 @@ RCT_EXPORT_MODULE()
 }
 
 // Fill form fields in the PDF
-- (void)fillFormFields:(NSString *)pdfPath
-             fieldData:(NSDictionary *)fieldData
-              resolver:(RCTPromiseResolveBlock)resolve
-              rejecter:(RCTPromiseRejectBlock)reject {
+RCT_EXPORT_METHOD(fillFormFields:(NSString *)pdfPath
+                  fieldData:(NSDictionary *)fieldData
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
   NSURL *url = [NSURL URLWithString:pdfPath];
   if (!url) {
     reject(@"ERROR", @"Invalid PDF path", nil);
@@ -112,11 +119,6 @@ RCT_EXPORT_MODULE()
   } else {
     reject(@"ERROR", @"Unable to save filled PDF", nil);
   }
-}
-
-// Turbo Module initialization
-- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const facebook::react::ObjCTurboModule::InitParams &)params {
-  return std::make_shared<facebook::react::NativePdfFormSpecJSI>(params);
 }
 
 @end

@@ -1,17 +1,19 @@
 package com.pdfform
 
 import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.module.annotations.ReactModule
+import com.facebook.react.bridge.ReactContextBaseJavaModule
+import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.Promise
 
-@ReactModule(name = PdfFormModule.NAME)
 class PdfFormModule(reactContext: ReactApplicationContext) :
-  NativePdfFormSpec(reactContext) {
+  ReactContextBaseJavaModule(reactContext) {
 
   override fun getName(): String {
     return NAME
   }
 
-  override fun detectFormFields(pdfPath: String, promise: Promise) {
+  @ReactMethod
+  fun detectFormFields(pdfPath: String, promise: Promise) {
     try {
         val file = File(Uri.parse(pdfPath).path)
         val document = PDDocument.load(file)
@@ -41,7 +43,8 @@ class PdfFormModule(reactContext: ReactApplicationContext) :
     }
   }
 
-  override fun fillFormFields(pdfPath: String, fieldData: ReadableMap, promise: Promise) {
+  @ReactMethod
+  fun fillFormFields(pdfPath: String, fieldData: ReadableMap, promise: Promise) {
     try {
         val file = File(Uri.parse(pdfPath).path)
         val document = PDDocument.load(file)
